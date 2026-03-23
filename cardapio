@@ -1,0 +1,201 @@
+import * as React from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+function TelaBurger() {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.titulo1}>CARDÁPIO</Text>
+      <Text style={styles.titulo2}>BURGUER</Text>
+      <ItensBurger />
+      <Mesa imagem={require('./hamburguer.png')} />
+    </ScrollView>
+  );
+}
+
+function TelaBebidas() {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.titulo1}>CARDÁPIO</Text>
+      <Text style={styles.titulo2}>BEBIDAS</Text>
+      <ItensBebidas />
+      <Mesa imagem={require('./refrigerante.png')} tamanho="grande" />
+    </ScrollView>
+  );
+}
+
+function TelaDoces() {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.titulo1}>CARDÁPIO</Text>
+      <Text style={styles.titulo2}>DOCES</Text>
+      <ItensDoces />
+      <Mesa imagem={require('./doces.png')} tamanho="grande" />
+    </ScrollView>
+  );
+}
+
+function Mesa({ imagem, tamanho }) {
+  return (
+    <View style={styles.mesaWrapper}>
+      <ImageBackground style={styles.mesa} source={require('./mesa.png')}>
+        <Image
+          style={tamanho === "grande" ? styles.imgGrandeMesa : styles.burguerMesa}
+          source={imagem}
+        />
+      </ImageBackground>
+    </View>
+  );
+}
+
+function Item({ nome, preco, desc }) {
+  return (
+    <>
+      <View style={styles.linha}>
+        <Text style={styles.nome}>{nome}</Text>
+        <Text style={styles.preco}>R${preco}</Text>
+      </View>
+      <Text style={styles.desc}>{desc}</Text>
+    </>
+  );
+}
+
+function ItensBurger() {
+  return (
+    <>
+      <Item nome="BURGUER LOMBO" preco="18,90" desc="Hambúrguer, queijo, alface, tomate" />
+      <Item nome="BURGUER PICANHA" preco="18,90" desc="Hambúrguer, queijo, alface, tomate" />
+      <Item nome="BURGUER BACON" preco="18,90" desc="Carne, bacon, queijo e molho" />
+      <Item nome="BURGUER FRANGO" preco="18,90" desc="Frango, queijo e salada" />
+    </>
+  );
+}
+
+function ItensBebidas() {
+  return (
+    <>
+      <Item nome="COCA-COLA" preco="6,00" desc="Lata 350ml" />
+      <Item nome="GUARANÁ" preco="5,50" desc="Lata gelada" />
+      <Item nome="SUCO" preco="7,00" desc="Natural" />
+      <Item nome="ÁGUA" preco="3,00" desc="Sem gás" />
+    </>
+  );
+}
+
+function ItensDoces() {
+  return (
+    <>
+      <Item nome="COMBO DOCE 1" preco="25,00" desc="Sobremesa + bebida" />
+      <Item nome="COMBO DOCE 2" preco="27,00" desc="Doce especial" />
+      <Item nome="COMBO DOCE 3" preco="28,00" desc="Chocolate + extra" />
+      <Item nome="COMBO DOCE 4" preco="26,00" desc="Doce + suco" />
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: '#1c1c1c',
+            borderTopWidth: 0,
+          },
+          tabBarActiveTintColor: '#ff9900',
+          tabBarInactiveTintColor: '#ccc',
+          tabBarLabelStyle: {
+            fontSize: 16,
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        <Tab.Screen name="BURGUER" component={TelaBurger} />
+        <Tab.Screen name="BEBIDAS" component={TelaBebidas} />
+        <Tab.Screen name="DOCES" component={TelaDoces} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1c1c1c',
+    padding: 10,
+  },
+
+  titulo1: {
+    fontSize: 50,
+    color: '#ff9900',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  titulo2: {
+    fontSize: 54,
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+
+  linha: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 15,
+  },
+
+  nome: {
+    color: '#ff9900',
+    fontWeight: 'bold',
+    fontSize: 22,
+  },
+
+  preco: {
+    backgroundColor: '#ff9900',
+    color: '#000',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 6,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+
+  desc: {
+    color: '#ccc',
+    fontSize: 15,
+    marginBottom: 8,
+  },
+
+  mesaWrapper: {
+    marginLeft: -10,
+    marginRight: -10,
+    marginTop: 5,
+  },
+
+  mesa: {
+    width: '100%',
+    height: 220,
+    justifyContent: 'flex-end',
+  },
+
+  burguerMesa: {
+    width: '100%',
+    height: 180,
+    resizeMode: 'contain',
+    marginBottom: 20,
+  },
+
+  imgGrandeMesa: {
+    width: '100%',
+    height: 220,
+    resizeMode: 'contain',
+    marginBottom: 20,
+  },
+});
